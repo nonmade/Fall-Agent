@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- 该 APK 不包含 Activity，仅作为 app_process 的 CLASSPATH 宿主。 -->
+    <application
+        android:label="FallShell"
+        android:hasCode="true" />
+
+</manifest>

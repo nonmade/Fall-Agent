@@ -1,0 +1,10 @@
+# 统一换行符：仓库内一律 LF，避免跨平台（Windows 检出 CRLF）破坏脚本
+* text=auto eol=lf
+
+# 例外：Windows 批处理需 CRLF
+*.bat text eol=crlf
+
+# 二进制资源不做换行转换
+*.onnx binary
+*.webp binary
+*.jar binary

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- 网络通信（LLM 在线端点 / 本地 vLLM）必需 -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <!-- 执行可视化悬浮胶囊 -->
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <!-- Android 13+ 前台服务通知（灵动岛胶囊的通知兜底可见性） -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <!-- OverlayService 声明了 foregroundServiceType=specialUse，缺此权限会崩溃 -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
+
+    <!-- Android 11+ 包可见性：声明后可用 getLaunchIntentForPackage 看到全部可启动应用（打开 App 功能必需） -->
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.MAIN" />
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent>
+        <!-- HOME 查询：press_home 需要在虚拟屏上启动系统桌面（否则该屏无窗口 → 后续注入全部失败） -->
+        <intent>
+            <action android:name="android.intent.action.MAIN" />
+            <category android:name="android.intent.category.HOME" />
+        </intent>
+    </queries>
+
+    <application
+        android:name=".FallApplication"
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.Fall"
+        android:usesCleartextTraffic="true">
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.Fall"
+            android:windowSoftInputMode="adjustResize">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- 执行可视化：悬浮胶囊 + 全屏监控 -->
+        <service
+            android:name=".execution.OverlayService"
+            android:exported="false"
+            android:foregroundServiceType="specialUse">
+            <property
+                android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
+                android:value="agent_execution_overlay" />
+        </service>
+        <activity
+            android:name=".execution.ExecutionActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Fall" />
+        <activity
+            android:name=".execution.PreviewActivity"
+            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
+            android:exported="true"
+            android:theme="@style/Theme.Fall" />
+
+        <!-- ADB 任务下发入口：am start -n com.fall.assistant/.agent.AgentTaskActivity -e goal "..." -->
+        <activity
+            android:name=".agent.AgentTaskActivity"
+            android:exported="true"
+            android:excludeFromRecents="true"
+            android:taskAffinity=""
+            android:theme="@android:style/Theme.NoDisplay" />
+    </application>
+
+</manifest>

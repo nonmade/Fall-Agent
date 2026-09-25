@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <application>
+        <!-- 无障碍服务必须 exported=true，系统才会把它注册进「已下载的应用」并允许启用。
+             原先 false 导致 ROM 设置页找不到 Fall、settings put 也会被拒。 -->
+        <service
+            android:name=".service.AccessibilityExecutorService"
+            android:exported="true"
+            android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE"
+            android:label="Fall 自动化">
+            <intent-filter>
+                <action android:name="android.accessibilityservice.AccessibilityService" />
+            </intent-filter>
+            <meta-data
+                android:name="android.accessibilityservice"
+                android:resource="@xml/accessibility_executor_config" />
+        </service>
+    </application>
+
+</manifest>

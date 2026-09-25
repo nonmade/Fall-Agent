@@ -1,0 +1,55 @@
+# ===== Android Studio / IntelliJ =====
+.idea/
+*.iml
+
+# ===== Gradle 构建产物 =====
+.gradle/
+.kotlin/
+build/
+.externalNativeBuild/
+.cxx/
+captures/
+
+# ===== 本机配置（含 SDK 路径，勿入库）=====
+local.properties
+*.local
+
+# ===== 构建输出物 =====
+*.apk
+*.aab
+*.aar
+*.hprof
+
+# ===== 签名与密钥 =====
+*.jks
+*.keystore
+*.p12
+signing.properties
+/keystore/
+
+# ===== 本地专属内容（文档、调试脚本等，暂不公开）=====
+# 注意：加前导斜杠，只匹配仓库根目录，避免误伤 core/.../data/local 这类同名子目录
+/doc/
+/local/
+
+# ===== 运行日志 / 崩溃快照 =====
+*.log
+hs_err_pid*
+
+# ===== Python（server/）=====
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ipynb_checkpoints/
+
+# ===== 其它 IDE / 工具 =====
+.vscode/
+.trae/
+
+# ===== 系统文件 =====
+.DS_Store
+Thumbs.db
